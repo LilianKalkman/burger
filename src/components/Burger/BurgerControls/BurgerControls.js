@@ -17,7 +17,8 @@ const burgerControls = (props) => {
                   key={control.label}
                   label={control.label}
                   add={() => props.addIngredient(control.type)}
-                  remove={() => props.removeIngredient(control.type)}/>
+                  remove={() => props.removeIngredient(control.type)}
+                  disable={props.disabled[control.type]}/>
       })}
     </div>
   );
