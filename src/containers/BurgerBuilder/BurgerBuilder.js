@@ -79,6 +79,10 @@ class BurgerBuilder extends Component {
     this.setState({showModal: false});
   }
 
+  orderContinueHandler = () => {
+    alert('Continued!');
+  }
+
   render(){
     const disabledInfo = {...this.state.ingredients};
     for (let key in disabledInfo){
@@ -87,7 +91,10 @@ class BurgerBuilder extends Component {
 
     let orderSummary = null;
     if(this.state.showModal === true){
-      orderSummary = <Modal remove={this.removeModalHandler}><OrderSum ingredients={this.state.ingredients}/></Modal>
+      orderSummary = <Modal remove={this.removeModalHandler}><OrderSum
+        ingredients={this.state.ingredients}
+        remove={this.removeModalHandler}
+        continue={this.orderContinueHandler}/></Modal>
     };
 
     return(
