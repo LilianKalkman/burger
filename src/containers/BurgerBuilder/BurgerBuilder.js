@@ -75,6 +75,10 @@ class BurgerBuilder extends Component {
     this.setState({showModal: true});
   }
 
+  removeModalHandler = () => {
+    this.setState({showModal: false});
+  }
+
   render(){
     const disabledInfo = {...this.state.ingredients};
     for (let key in disabledInfo){
@@ -83,7 +87,7 @@ class BurgerBuilder extends Component {
 
     let orderSummary = null;
     if(this.state.showModal === true){
-      orderSummary = <Modal><OrderSum ingredients={this.state.ingredients}/></Modal>
+      orderSummary = <Modal remove={this.removeModalHandler}><OrderSum ingredients={this.state.ingredients}/></Modal>
     };
 
     return(
@@ -98,6 +102,7 @@ class BurgerBuilder extends Component {
           price={this.state.totalPrice}
           purchasable={this.state.purchasable}
           showmodal={this.showModalHandler}
+          removeModal={this.removeModalHandler}
           />
       </Aux>
     );
