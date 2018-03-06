@@ -9,12 +9,16 @@ class Layout extends Component {
     super(props);
 
     this.state = {
-      showSideDrawer: true
+      showSideDrawer: false
     }
   }
 
   removeSideDrawerHandler = () => {
     this.setState({showSideDrawer: false});
+  }
+
+  showSideDrawerHandler = () => {
+    this.setState({showSideDrawer: true});
   }
 
   render(){
@@ -27,7 +31,7 @@ class Layout extends Component {
 
     return(
       <Aux>
-        <Toolbar />
+        <Toolbar show={this.showSideDrawerHandler} close={this.removeSideDrawerHandler}/>
         {sideDrawer}
         <main className={classes.Content}>
           {this.props.children}

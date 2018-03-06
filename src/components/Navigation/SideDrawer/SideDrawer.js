@@ -19,6 +19,7 @@ const SideDrawer = (props) => {
         <nav>
           <NavigationItems />
         </nav>
+        <div onClick={props.close}><a href="#">Close</a></div>
       </div>
     </Aux>
   );
