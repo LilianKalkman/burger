@@ -4,6 +4,9 @@ import Burger from '../../components/Burger/Burger';
 import BurgerControls from '../../components/Burger/BurgerControls/BurgerControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSum from '../../components/Burger/Ordersum/Ordersum';
+import axios from '../../axios-orders';
+import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -26,6 +29,7 @@ class BurgerBuilder extends Component {
       totalPrice: 4,
       purchasable: false,
       showModal: false,
+      loading: false
     }
   }
 
@@ -80,7 +84,22 @@ class BurgerBuilder extends Component {
   }
 
   orderContinueHandler = () => {
-    alert('Continued!');
+    this.setState({loading: true});
+    const data = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      customer: {
+        name: 'Lilian',
+        email: 'lilian@hotmail.com',
+        address: 'bali 3'
+      },
+      deliveryMethod: 'fastest'
+    }
+
+    axios.post('orders', data)
+    .then(response => this.setState({loading: false, showModal: false}))
+    .catch(error => this.setState({loading: false, showModal: false}));
+    // alert('Continued!');
   }
 
   render(){
@@ -97,6 +116,9 @@ class BurgerBuilder extends Component {
         continue={this.orderContinueHandler}
         price={this.state.totalPrice}/></Modal>
     };
+    if(this.state.loading){
+      orderSummary = <Modal remove={this.removeModalHandler}><Spinner /></Modal>
+    }
 
     return(
       <Aux>
@@ -117,4 +139,4 @@ class BurgerBuilder extends Component {
   }
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axios);
