@@ -20,17 +20,21 @@ class BurgerBuilder extends Component {
     super(props);
 
     this.state = {
-      ingredients: {
-        salad: 3,
-        bacon: 0,
-        cheese: 0,
-        meat: 1
-      },
+      ingredients: null,
       totalPrice: 4,
       purchasable: false,
       showModal: false,
-      loading: false
+      loading: false,
+      error: null
     }
+  }
+
+  componentDidMount(){
+    axios.get('https://burger-eaf0f.firebaseio.com/ingredients.json')
+    .then(response => {
+      this.setState({ingredients: response.data});
+    })
+    .catch(error => this.setState({error: true}));
   }
 
   updatePurchaseState (ingredients) {
@@ -96,7 +100,7 @@ class BurgerBuilder extends Component {
       deliveryMethod: 'fastest'
     }
 
-    axios.post('orders', data)
+    axios.post('orders.json', data)
     .then(response => this.setState({loading: false, showModal: false}))
     .catch(error => this.setState({loading: false, showModal: false}));
     // alert('Continued!');
@@ -120,9 +124,16 @@ class BurgerBuilder extends Component {
       orderSummary = <Modal remove={this.removeModalHandler}><Spinner /></Modal>
     }
 
-    return(
+    let burger = (
       <Aux>
-          {orderSummary}
+        <Spinner />
+        <p>{this.state.error ? 'ingredients can\'t be loaded' : null}</p>
+      </Aux>
+    );
+
+    if(this.state.ingredients !== null){
+    burger = (
+      <Aux>
         <Burger ingredients={this.state.ingredients}/>
         <BurgerControls
           controls={this.state.controls}
@@ -134,6 +145,13 @@ class BurgerBuilder extends Component {
           showmodal={this.showModalHandler}
           removeModal={this.removeModalHandler}
           />
+      </Aux>
+    )};
+
+    return(
+      <Aux>
+          {orderSummary}
+          {burger}
       </Aux>
     );
   }
