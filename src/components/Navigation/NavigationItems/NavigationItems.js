@@ -5,8 +5,15 @@ import { NavLink } from 'react-router-dom';
 const navigationItems = () => (
   <ul className={classes.NavigationItems}>
     <li className={classes.NavigationItem}>
-      <NavLink to="/">Burger Builder</NavLink>
-      <NavLink to="/checkout">Checkout</NavLink>
+      <NavLink
+        to="/" exact
+        activeClassName={classes.active}>Burger Builder</NavLink>
+      <NavLink
+        to="/checkout" exact
+        activeClassName={classes.active}>Checkout</NavLink>
+      <NavLink
+        to="/orders" exact
+        activeClassName={classes.active}>My Order</NavLink>
     </li>
   </ul>
 );
