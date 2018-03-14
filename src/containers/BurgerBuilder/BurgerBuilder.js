@@ -15,8 +15,6 @@ class BurgerBuilder extends Component {
     super(props);
 
     this.state = {
-      totalPrice: 4,
-      purchasable: false,
       showModal: false,
       loading: false,
       error: null
@@ -39,7 +37,7 @@ class BurgerBuilder extends Component {
     const totalCount = arr.reduce((total, el) => {
       return total + el;
     }, 0);
-    this.setState({ purchasable: totalCount > 0});
+    return totalCount > 0
   }
   //
   // addIngredientHandler = (type) => {
@@ -82,16 +80,17 @@ class BurgerBuilder extends Component {
   }
 
   orderContinueHandler = () => {
-    const queryParams = [];
-    for(let i in this.state.ingredients){
-      queryParams.push(encodeURIComponent(i)+'='+ encodeURIComponent(this.state.ingredients[i]))
-    }
-    queryParams.push('price=' + this.state.totalPrice);
-    const queryString = queryParams.join('&');
-    this.props.history.push({
-      pathname: '/checkout',
-      search: '?' + queryString
-    });
+    this.props.history.push('/checkout');
+    // const queryParams = [];
+    // for(let i in this.state.ingredients){
+    //   queryParams.push(encodeURIComponent(i)+'='+ encodeURIComponent(this.state.ingredients[i]))
+    // }
+    // queryParams.push('price=' + this.state.totalPrice);
+    // const queryString = queryParams.join('&');
+    // this.props.history.push({
+    //   pathname: '/checkout',
+    //   search: '?' + queryString
+    // });
   }
 
   render(){
@@ -129,7 +128,7 @@ class BurgerBuilder extends Component {
           removeIngredient={this.props.remove}
           disabled={disabledInfo}
           price={this.props.price}
-          purchasable={this.state.purchasable}
+          purchasable={this.updatePurchaseState(this.props.ingredients)}
           showmodal={this.showModalHandler}
           removeModal={this.removeModalHandler}
           />
