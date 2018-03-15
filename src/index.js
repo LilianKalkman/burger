@@ -6,15 +6,13 @@ import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import priceReducer from './store/reducers/price_reducer';
-import ingredientsReducer from './store/reducers/ingredients_reducer';
+import burgerReducer from './store/reducers/burger_reducer';
 
 const rootReducer = combineReducers({
-  price: priceReducer,
-  ingr: ingredientsReducer
+  ingr: burgerReducer
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 const app = (
   <Provider store={store}>
