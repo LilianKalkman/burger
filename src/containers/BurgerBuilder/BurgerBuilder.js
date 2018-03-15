@@ -8,7 +8,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
 import axios from '../../axios-orders';
-import * as burgerActions from '../../store/actions/actions_index';
+import * as actions from '../../store/actions/actions_index';
 
 class BurgerBuilder extends Component {
   constructor(props){
@@ -81,6 +81,7 @@ class BurgerBuilder extends Component {
   }
 
   orderContinueHandler = () => {
+    this.props.orderinit();
     this.props.history.push('/checkout');
     // const queryParams = [];
     // for(let i in this.state.ingredients){
@@ -155,9 +156,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    add: (name) => dispatch(burgerActions.addIngredient(name)),
-    remove: (name) => dispatch(burgerActions.removeIngredient(name)),
-    init: () => dispatch(burgerActions.initIngredients())
+    add: (name) => dispatch(actions.addIngredient(name)),
+    remove: (name) => dispatch(actions.removeIngredient(name)),
+    init: () => dispatch(actions.initIngredients()),
+    orderinit: () => dispatch(actions.orderInit())
   }
 }
 
