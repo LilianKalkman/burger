@@ -27,7 +27,7 @@ export const startOrder = (orderData) => {
     dispatch(orderStartLoading());
     axios.post('orders.json', orderData)
     .then(response => {
-      dispatch(orderSuccess(response.data, orderData))
+      dispatch(orderSuccess(response.data.name, orderData))
     })
     .catch(error => dispatch(orderFail(error)));
   }
