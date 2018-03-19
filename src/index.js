@@ -7,10 +7,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import burgerReducer from './store/reducers/burger_reducer';
+import orderReducer from './store/reducers/order_reducer';
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
-  ingr: burgerReducer
+  ingr: burgerReducer,
+  odr: orderReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

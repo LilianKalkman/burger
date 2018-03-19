@@ -5,6 +5,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import { withRouter } from 'react-router-dom';
 import Input from '../../../components/UI/Input/Input';
 import { connect } from 'react-redux';
+import * as orderActions from '../../../store/actions/actions_index';
 
 class ContactData extends Component {
   state = {
@@ -90,7 +91,6 @@ class ContactData extends Component {
       },
     },
     formIsValid: false,
-    loading: false
   }
 
   checkValidation = (value, rules) => {
@@ -123,13 +123,13 @@ class ContactData extends Component {
       price: this.props.price,
       orderdata: formData,
     }
-
-    axios.post('orders.json', data)
-    .then(response => {
-      this.setState({loading: false});
-      this.props.history.push('/');
-    })
-    .catch(error => this.setState({loading: false}));
+    // axios.post('orders.json', data)
+    // .then(response => {
+    //   this.setState({loading: false});
+    //   this.props.history.push('/');
+    // })
+    // .catch(error => this.setState({loading: false}));
+    this.props.order(data);
   }
 
   inputChangeHandler = (event, elementId) => {
@@ -174,7 +174,7 @@ class ContactData extends Component {
           <button disabled={!this.state.formIsValid}>Order</button>
         </form>
     );
-    if(this.state.loading){
+    if(this.props.loading){
       form = <Spinner />
     }
     return(
@@ -189,8 +189,15 @@ class ContactData extends Component {
 const mapStateToProps = (state) => {
   return {
     ingredients: state.ingr.ingredients,
-    price: state.ingr.totalPrice
+    price: state.ingr.totalPrice,
+    loading: state.odr.loading
   }
 }
 
-export default connect(mapStateToProps)(withRouter(ContactData));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    order: (orderData) => dispatch(orderActions.startOrder(orderData))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ContactData));
